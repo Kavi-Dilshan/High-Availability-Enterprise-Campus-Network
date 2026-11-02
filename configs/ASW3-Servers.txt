@@ -1,0 +1,26 @@
+enable
+configure terminal
+hostname ASW3-Servers
+vlan 40
+ name Server_Farm
+vlan 99
+ name Management
+exit
+
+interface range Gig0/1 - 2
+ switchport mode trunk
+ exit
+
+interface Fa0/1
+ switchport mode access
+ switchport access vlan 40
+ spanning-tree portfast
+ exit
+
+interface Vlan99
+ ip address 192.168.99.13 255.255.255.0
+ no shutdown
+ exit
+ip default-gateway 192.168.99.1
+end
+write memory

@@ -1,0 +1,31 @@
+enable
+configure terminal
+hostname ASW2-IT
+vlan 30
+ name IT_Dept
+vlan 99
+ name Management
+exit
+
+interface range Gig0/1 - 2
+ switchport mode trunk
+ exit
+
+interface range Fa0/1 - 2
+ switchport mode access
+ switchport access vlan 30
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ exit
+
+interface Vlan99
+ ip address 192.168.99.12 255.255.255.0
+ no shutdown
+ exit
+ip default-gateway 192.168.99.1
+end
+write memory

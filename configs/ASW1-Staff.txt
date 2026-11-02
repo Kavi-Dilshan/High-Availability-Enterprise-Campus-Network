@@ -1,0 +1,44 @@
+enable
+configure terminal
+hostname ASW1-Staff
+vlan 10
+ name HR_Admin
+vlan 20
+ name Finance
+vlan 99
+ name Management
+exit
+
+interface range Gig0/1 - 2
+ switchport mode trunk
+ exit
+
+interface range Fa0/1 - 2
+ switchport mode access
+ switchport access vlan 10
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ exit
+
+interface range Fa0/3 - 4
+ switchport mode access
+ switchport access vlan 20
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ exit
+
+interface Vlan99
+ ip address 192.168.99.11 255.255.255.0
+ no shutdown
+ exit
+ip default-gateway 192.168.99.1
+end
+write memory
